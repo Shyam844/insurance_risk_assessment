@@ -2,7 +2,7 @@ from pandas import read_csv
 import numpy
 from time import time
 from sklearn.externals import joblib
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 
 start_time = time()
 
@@ -84,7 +84,7 @@ def main():
 	print("test_x -> " + str(test_x.shape))
 
 	# Train the Model
-	clf = LogisticRegression()
+	clf = SVC()
 	print("Training...")
 	clf.fit(train_x, train_y)
 
