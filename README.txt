@@ -16,6 +16,11 @@ SVM:
 	- 106 Minutes
 	- Always Predicts class 8
 
+KNN:
+	- .07
+	- n_neighbors=11
+	- 25 Seconds
+
 Tutorials:
 -----------
 Missing Values: https://machinelearningmastery.com/handle-missing-data-python/

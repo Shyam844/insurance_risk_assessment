@@ -2,7 +2,7 @@ from pandas import read_csv
 import numpy
 from time import time
 from sklearn.externals import joblib
-from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 
 start_time = time()
 
@@ -84,7 +84,7 @@ def main():
 	print("test_x -> " + str(test_x.shape))
 
 	# Train the Model
-	clf = SVC()
+	clf = KNeighborsClassifier(n_neighbors=11)
 	print("Training...")
 	clf.fit(train_x, train_y)
 
