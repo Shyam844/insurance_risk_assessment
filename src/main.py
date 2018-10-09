@@ -1,22 +1,34 @@
+import matplotlib
+matplotlib.use('Agg')
 from pandas import read_csv
 import numpy
 from time import time
 from sklearn.externals import joblib
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import StandardScaler
+from matplotlib import pyplot
+
 
 start_time = time()
+
+def normalize_data(data):
+	scaler = StandardScaler()
+	return scaler.fit(data).transform(data)
 
 def read_csv_(path):
 	data_frame = read_csv(path)
 	handle_missing_values(data_frame)
 	data = data_frame.values
-	#print("Raw Data -> " + str(data.shape))
+	print("Raw Data -> " + str(data.shape))
 	return data
 
 
 def get_train_data(path):
 	# Assumption : The last column in CSV file is the label
 	# Assumption : The 3rd column of CSV file has strings
+	print("Getting Train Data...")
 	data = read_csv_(path)
 	rows, cols = data.shape
 	x = data[:, :cols-1]	# 'cols-1' is excluded
@@ -24,15 +36,19 @@ def get_train_data(path):
 	handle_str_col(x, 2)
 	x = numpy.asarray(x, dtype=numpy.float64)
 	y = numpy.asarray(y, dtype=numpy.int)
+	print("train_x : " + str(x.shape))
+	print("train_y : " + str(y.shape))
 	return x, y
 
 def get_test_data(path):
 	# Assumption : The 3rd column of CSV file has strings
+	print("Getting Test Data...")
 	data = read_csv_(path)
 	rows, cols = data.shape
 	x = data[:, :]
 	handle_str_col(x, 2)
 	x = numpy.asarray(x, dtype=numpy.float64)
+	print("test_x : " + str(x.shape))
 	return x
 
 def handle_missing_values(df):
@@ -58,6 +74,7 @@ def get_int_from_str(str_):
 	return int(res)
 
 def save_results(test_x, pred_y):
+	print("Saving Results...")
 	test_x = numpy.asarray(test_x, dtype=numpy.int32)
 	pred_y = numpy.asarray(pred_y, dtype=numpy.int32)
 	col_1 = test_x[:, 0]
@@ -72,19 +89,38 @@ def save_results(test_x, pred_y):
 		count = count+1
 	book.close()	
 
+def visualize_pca(x, y):
+	print("PCA...")
+	pca = PCA(n_components=2)
+	x = pca.fit_transform(x)
+	print("Post PCA, x -> " + str(x.shape))
+	pyplot.scatter(x[:, 0], x[:, 1], c=y, s=9)
+	pyplot.savefig("vis_pca.png")
+
+def visualize_tsne(x, y):
+	print("T-SNE...")
+	tsne_ = TSNE(n_components=2)
+	x = tsne_.fit_transform(x)
+	print("Post T-SNE, x -> " + str(x.shape))
+	pyplot.scatter(x[:, 0], x[:, 1], c=y, s=10)
+	pyplot.savefig("vis_tsne.png")
+
+	
 def main():
-	# Get Train Data
-	print("Getting Data...")
+	# Get Data
 	train_x, train_y = get_train_data("../dataset/train.csv")
-	print("train_x -> " + str(train_x.shape))
-	print("train_y -> " + str(train_y.shape))
-
-	# Get Test Data
 	test_x = get_test_data("../dataset/test.csv")
-	print("test_x -> " + str(test_x.shape))
 
+	# Normalize Data
+	train_x = normalize_data(train_x)
+	test_x = normalize_data(test_x)
+
+	# Visualize Data
+	visualize_pca(train_x, train_y)
+	visualize_tsne(train_x, train_y)
+'''
 	# Train the Model
-	clf = KNeighborsClassifier(n_neighbors=11)
+	clf = GaussianNB()
 	print("Training...")
 	clf.fit(train_x, train_y)
 
@@ -97,7 +133,7 @@ def main():
 	pred_y = clf.predict(test_x)
 	
 	# Save Results
-	save_results(test_x, pred_y)
+	save_results(test_x, pred_y)'''
 
 main()
 
