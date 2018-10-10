@@ -43,13 +43,23 @@ ELM:
 	- 42 seconds
 	- https://stats.stackexchange.com/a/1097
 	----------------------------
-	-	.427
+	-.427
 	- 	clf.add_neurons(220, "tanh")
 		clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 	- 304 seconds
 	- https://stats.stackexchange.com/a/136542
 	----------------------------
+	-.45
+	- 	clf.add_neurons(220, "sigm")
+		clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
+	- 312 seconds
+
 
 Tutorials:
 -----------
 Missing Values: https://machinelearningmastery.com/handle-missing-data-python/
+
+To-do
+-----
+ELM with an argument - accelerator="GPU" to use the GPU; install skcuda on
+compute node for this
