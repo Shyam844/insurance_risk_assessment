@@ -9,6 +9,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from matplotlib import pyplot
 from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import train_test_split
 from hpelm import ELM
 
 global tot_labels, clf
@@ -152,13 +153,7 @@ def elm(train_x, train_y, test_x):
 	features = train_x.shape[1]
 	train_y = one_hot_encoding(train_y)
 	clf = ELM(features, tot_labels)
-	clf.add_neurons(500, "sigm")
-	clf.add_neurons(250, "tanh")
-	clf.add_neurons(150, "tanh")
-	clf.add_neurons(1000, "sigm")
-	clf.add_neurons(500, "tanh")
-	clf.add_neurons(250, "sigm")
-	clf.add_neurons(50, "tanh")
+	clf.add_neurons(68, "tanh")
 	clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 	pred_y = clf.predict(test_x)
 	pred_y = one_hot_decoding_full(pred_y)
@@ -187,8 +182,8 @@ def main():
 
 	# Save Results
 	save_results(test_x_raw, pred_y)
-
 '''
+
 	# Visualize Data
 	visualize_pca(train_x, train_y)
 	visualize_tsne(train_x, train_y)

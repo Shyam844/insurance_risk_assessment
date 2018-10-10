@@ -36,6 +36,10 @@ ELM:
 		clf.add_neurons(50, "tanh")
 		clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 	- almost 5 hours
+	----------------------------
+	- .363
+	- 
+	- 42 seconds
 
 Tutorials:
 -----------
