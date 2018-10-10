@@ -153,7 +153,7 @@ def elm(train_x, train_y, test_x):
 	features = train_x.shape[1]
 	train_y = one_hot_encoding(train_y)
 	clf = ELM(features, tot_labels)
-	clf.add_neurons(68, "tanh")
+	clf.add_neurons(220, "tanh")
 	clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 	pred_y = clf.predict(test_x)
 	pred_y = one_hot_decoding_full(pred_y)
@@ -182,8 +182,8 @@ def main():
 
 	# Save Results
 	save_results(test_x_raw, pred_y)
-'''
 
+'''
 	# Visualize Data
 	visualize_pca(train_x, train_y)
 	visualize_tsne(train_x, train_y)
