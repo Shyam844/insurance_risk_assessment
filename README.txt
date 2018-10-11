@@ -67,5 +67,13 @@ Missing Values: https://machinelearningmastery.com/handle-missing-data-python/
 
 To-do
 -----
-ELM with an argument - accelerator="GPU" to use the GPU; install skcuda on
-compute node for this
+1. ELM with an argument - accelerator="GPU" to use the GPU; install skcuda on
+compute node for this; mail IT Helpdesk for the same.
+
+2. Couldn't clone git repo on compute node; mail IT Helpdesk.
+
+3. Make code more object oriented by maintaining classes in separate files like Database, ELM, SVM etc
+
+4. Tune neurons, act_func for ELM
+
+5. Instead of writing results/observations in README, maintain a google doc

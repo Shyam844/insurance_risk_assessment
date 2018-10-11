@@ -48,13 +48,13 @@ def get_int_from_str(str_):
 		ind = ind+1
 	return int(res)
 
-def save_results(test_x, pred_y):
-	print("Saving Results...")
+def save_results(test_x, pred_y, file_name):
+	#print("Saving Results...")
 	test_x = numpy.asarray(test_x, dtype=numpy.int32)
 	pred_y = numpy.asarray(pred_y, dtype=numpy.int32)
 	col_1 = test_x[:, 0]
 	col_2 = pred_y
-	book = open("submission.csv", "a")
+	book = open(file_name, "a")
 	book.write("Id,Response\n")
 	count = 0
 	while(count < len(pred_y)):
@@ -147,21 +147,47 @@ def one_hot_decoding_full(data):
 	return decoded_data	
 
 def elm(train_x, train_y, test_x):
-	global clf
+	global clf, tot_labels
 	print("ELM...")
-	global tot_labels
 	features = train_x.shape[1]
 	train_y = one_hot_encoding(train_y)
 	clf = ELM(features, tot_labels)
-	clf.add_neurons(250, "sigm")
+	clf.add_neurons(600, "tanh")
 	clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 	pred_y = clf.predict(test_x)
 	pred_y = one_hot_decoding_full(pred_y)
 	return pred_y
 
+def tune_elm(train_x, train_y, test_x_raw, test_x, act_funcs, neuron_counts):
+	'''
+	Assumptions:
+	1. NN has only 1 hidden layer
+	2. act_funcs: list of distinct activation functions
+	3. neuron_counts: list of distinct '# of neurons in the hidden layer'
+	'''
+	print("Tuning ELM...")
+	global tot_labels
+	features = train_x.shape[1]
+	train_y = one_hot_encoding(train_y)
+	ind_func = 0
+	while(ind_func < len(act_funcs)):
+		ind_neuron = 0
+		cur_act_func = act_funcs[ind_func]
+		while(ind_neuron < len(neuron_counts)):
+			cur_neuron_count = neuron_counts[ind_neuron]
+			print(cur_act_func + " | " + str(cur_neuron_count) + "...")
+			clf = ELM(features, tot_labels)
+			clf.add_neurons(cur_neuron_count, cur_act_func)
+			clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
+			pred_y = clf.predict(test_x)
+			pred_y = one_hot_decoding_full(pred_y)		
+			file_name = "submission_" + str(cur_neuron_count) + "_" + cur_act_func + ".csv"
+			save_results(test_x_raw, pred_y, file_name)
+			ind_neuron = ind_neuron+1
+		ind_func = ind_func+1
+
 def save_model():
 	global clf
-	print("Saving Model...")
 	f_ = open("model.pkl", "wb")
 	pickle.dump(clf, f_)
 	f_.close()
@@ -177,13 +203,16 @@ def main():
 	train_x = normalize_data(train_x)
 	test_x = normalize_data(test_x_raw)
 
+	#tune_elm(train_x, train_y, test_x_raw, test_x, ["tanh", "sigm"], [11, 12, 13])
+	tune_elm(train_x, train_y, test_x_raw, test_x, ["tanh", "sigm"], [300, 350, 400, 450, 500, 550, 600, 650, 700, 750])
+	
+	'''
 	pred_y = elm(train_x, train_y, test_x)
 	clf.save("model.pkl")
 
 	# Save Results
-	save_results(test_x_raw, pred_y)
+	save_results(test_x_raw, pred_y, "submission.csv")
 
-'''
 	# Visualize Data
 	visualize_pca(train_x, train_y)
 	visualize_tsne(train_x, train_y)
@@ -196,7 +225,6 @@ def main():
 	# Test the Model
 	print("Testing...")
 	pred_y = clf.predict(test_x)
-	
 	'''
 
 main()
