@@ -49,10 +49,16 @@ ELM:
 	- 304 seconds
 	- https://stats.stackexchange.com/a/136542
 	----------------------------
-	-.45
+	-.45357
 	- 	clf.add_neurons(220, "sigm")
 		clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 	- 312 seconds
+	----------------------------
+	-.45579
+	- 	clf.add_neurons(250, "sigm")
+		clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
+	- 825 seconds
+
 
 
 Tutorials:
