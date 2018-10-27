@@ -11,6 +11,7 @@ from matplotlib import pyplot
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from hpelm import ELM
+from mirror import Mirror
 
 global tot_labels, clf
 
@@ -192,6 +193,14 @@ def save_model():
 	pickle.dump(clf, f_)
 	f_.close()
 
+def feature_mining(train_x, train_y):
+	samples, tot_features = train_x.shape
+	ind = 0
+	while(ind < tot_features):
+		path = "./feature_mining/" + str(ind) + ".png"
+		Mirror.one_d(train_x[:, ind], train_y, path)
+		ind = ind+1
+
 def main():
 	global clf
 	init_global_vars()
@@ -203,10 +212,12 @@ def main():
 	train_x = normalize_data(train_x)
 	test_x = normalize_data(test_x_raw)
 
+	feature_mining(train_x, train_y)
+
+	'''
 	#tune_elm(train_x, train_y, test_x_raw, test_x, ["tanh", "sigm"], [11, 12, 13])
 	tune_elm(train_x, train_y, test_x_raw, test_x, ["tanh", "sigm"], [300, 350, 400, 450, 500, 550, 600, 650, 700, 750])
 	
-	'''
 	pred_y = elm(train_x, train_y, test_x)
 	clf.save("model.pkl")
 
