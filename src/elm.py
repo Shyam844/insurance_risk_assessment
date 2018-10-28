@@ -6,16 +6,25 @@ from hpelm import ELM
 # CONTAINS ALL STATIC MEMBERS
 class Elm:
 
-	def elm(train_x, train_y, test_x):
-		print("ELM...")
+	def epoch(train_x, train_y, test_x, test_x_raw, filename):
 		features = train_x.shape[1]
 		train_y = Pre_processor.one_hot_encoding(train_y)
 		clf = ELM(features, Constants.tot_labels)
-		clf.add_neurons(600, "tanh")
+		clf.add_neurons(550, "sigm")
 		clf.train(train_x, train_y, 'CV', 'OP', 'c', k=10)
 		pred_y = clf.predict(test_x)
 		pred_y = Pre_processor.one_hot_decoding_full(pred_y)
-		return pred_y
+		Database.save_results(test_x_raw, pred_y, filename)
+
+	def feature_engineering_pca(train_x, train_y, test_x, test_x_raw):
+		print("ELM Feature Engineering with PCA...")
+		count = 1
+		while(count < Constants.tot_features):
+			print("Top " + str(count) + " features...")
+			train_x_mod = Pre_Processor.get_top_k_features(train_x, count)
+			filename = "elm_top_" + str(count) + "_features.csv"
+			Elm.epoch(train_x, train_y, test_x, test_x_raw, filename)
+			count = count+1
 
 	def tune_elm(train_x, train_y, test_x_raw, test_x, act_funcs, neuron_counts):
 		'''

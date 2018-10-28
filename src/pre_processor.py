@@ -1,10 +1,15 @@
 from constants import Constants
 from mirror import Mirror
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 import numpy
 
 # CONTAINS ALL STATIC MEMBERS
 class Pre_processor:
+
+	def get_top_k_features(data, k):
+		pca = PCA(n_components=k)
+		return pca.fit_transform(data)
 
 	def normalize_data(data):
 		scaler = StandardScaler()
