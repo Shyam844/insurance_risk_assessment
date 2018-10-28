@@ -15,7 +15,7 @@ from time import time
 class Main:
 	@staticmethod
 	def main():
-		# Get Data
+		'''# Get Data
 		train_x, train_y = Database.get_train_data("../dataset/train.csv")
 		test_x_raw = Database.get_test_data("../dataset/test.csv")
 
@@ -24,7 +24,9 @@ class Main:
 		test_x = Pre_processor.normalize_data(test_x_raw)
 
 		Naive_bayes.feature_engineering_pca(train_x, train_y, test_x, test_x_raw)
-		Elm.feature_engineering_pca(train_x, train_y, test_x, test_x_raw)
+		Elm.feature_engineering_pca(train_x, train_y, test_x, test_x_raw)'''
+
+		Mirror.two_d_from_csv("nb_feature_enginnering_pca.csv", "feature_engineering_pca.png")
 
 start_time = time()
 Main.main() 
