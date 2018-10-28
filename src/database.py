@@ -5,7 +5,8 @@ import numpy
 
 # CONTAINS ALL STATIC MEMBERS
 class Database:
-
+	
+	@staticmethod
 	def get_train_data(path):
 		# Assumption : The last column in CSV file is the label
 		# Assumption : The 3rd column of CSV file has strings
@@ -21,6 +22,7 @@ class Database:
 		print("train_y : " + str(y.shape))
 		return x, y
 
+	@staticmethod
 	def get_test_data(path):
 		# Assumption : The 3rd column of CSV file has strings
 		print("Getting Test Data...")
@@ -32,12 +34,14 @@ class Database:
 		print("test_x : " + str(x.shape))
 		return x
 
+	@staticmethod
 	def read_csv_(path):
 		data_frame = read_csv(path)
 		Pre_processor.handle_missing_values(data_frame)
 		data = data_frame.values
 		return data
 
+	@staticmethod
 	def save_results(test_x, pred_y, file_name):
 		#print("Saving Results...")
 		test_x = numpy.asarray(test_x, dtype=numpy.int32)
@@ -54,6 +58,7 @@ class Database:
 			count = count+1
 		book.close()	
 
+	@staticmethod
 	def save_model(clf):
 		f_ = open("model.pkl", "wb")
 		pickle.dump(clf, f_)

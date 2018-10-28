@@ -11,10 +11,9 @@ from naive_bayes import Naive_bayes
 
 # Libraries
 from time import time
-from sklearn.naive_bayes import GaussianNB
 
 class Main:
-
+	@staticmethod
 	def main():
 		# Get Data
 		train_x, train_y = Database.get_train_data("../dataset/train.csv")

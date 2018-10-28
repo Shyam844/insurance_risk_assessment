@@ -5,7 +5,8 @@ from hpelm import ELM
 
 # CONTAINS ALL STATIC MEMBERS
 class Elm:
-
+	
+	@staticmethod
 	def epoch(train_x, train_y, test_x, test_x_raw, filename):
 		features = train_x.shape[1]
 		train_y = Pre_processor.one_hot_encoding(train_y)
@@ -16,16 +17,19 @@ class Elm:
 		pred_y = Pre_processor.one_hot_decoding_full(pred_y)
 		Database.save_results(test_x_raw, pred_y, filename)
 
+	@staticmethod
 	def feature_engineering_pca(train_x, train_y, test_x, test_x_raw):
 		print("ELM Feature Engineering with PCA...")
 		count = 1
 		while(count < Constants.tot_features):
 			print("Top " + str(count) + " features...")
-			train_x_mod = Pre_Processor.get_top_k_features(train_x, count)
+			train_x_mod = Pre_processor.get_top_k_features(train_x, count)
 			filename = "elm_top_" + str(count) + "_features.csv"
 			Elm.epoch(train_x, train_y, test_x, test_x_raw, filename)
 			count = count+1
+			return
 
+	@staticmethod
 	def tune_elm(train_x, train_y, test_x_raw, test_x, act_funcs, neuron_counts):
 		'''
 		Assumptions:
