@@ -20,6 +20,7 @@ class Naive_bayes:
 		while(count < Constants.tot_features):
 			print("Top " + str(count) + " features...")
 			train_x_mod = Pre_processor.get_top_k_features(train_x, count)
+			test_x_mod = Pre_processor.get_top_k_features(test_x, count)
 			filename = "nb_top_" + str(count) + "_features.csv"
-			Naive_bayes.epoch(train_x_mod, train_y, test_x, test_x_raw, filename)
+			Naive_bayes.epoch(train_x_mod, train_y, test_x_mod, test_x_raw, filename)
 			count = count+1
