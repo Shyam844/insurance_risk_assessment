@@ -23,4 +23,3 @@ class Naive_bayes:
 			filename = "nb_top_" + str(count) + "_features.csv"
 			Naive_bayes.epoch(train_x_mod, train_y, test_x, test_x_raw, filename)
 			count = count+1
-			return

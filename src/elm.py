@@ -27,7 +27,6 @@ class Elm:
 			filename = "elm_top_" + str(count) + "_features.csv"
 			Elm.epoch(train_x, train_y, test_x, test_x_raw, filename)
 			count = count+1
-			return
 
 	@staticmethod
 	def tune_elm(train_x, train_y, test_x_raw, test_x, act_funcs, neuron_counts):
