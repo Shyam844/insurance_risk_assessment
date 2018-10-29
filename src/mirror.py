@@ -20,7 +20,7 @@ class Mirror:
 		pyplot.plot(x, y)
 		pyplot.xlabel("Top K Principal Components (PCA)")
 		pyplot.ylabel("Quadratic Weighted Kappa")
-		pyplot.title("Naive Bayes - Feature Engineering with PCA")
+		pyplot.title("ELM - Feature Engineering with PCA")
 		pyplot.savefig(png)
 
 	@staticmethod

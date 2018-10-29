@@ -26,7 +26,7 @@ class Main:
 		Naive_bayes.feature_engineering_pca(train_x, train_y, test_x, test_x_raw)
 		Elm.feature_engineering_pca(train_x, train_y, test_x, test_x_raw)'''
 
-		Mirror.two_d_from_csv("nb_feature_enginnering_pca.csv", "feature_engineering_pca.png")
+		Mirror.two_d_from_csv("elm_feature_engineering_pca.csv", "elm_feature_engineering_pca.png")
 
 start_time = time()
 Main.main() 
