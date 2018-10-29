@@ -2,9 +2,19 @@ from matplotlib import pyplot
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from pandas import read_csv
+from seaborn import heatmap
 
 # CONTAINS ALL STATIC MEMBERS
 class Mirror:
+
+	@staticmethod
+	def plot_heatmap(data, filename):
+		axis = heatmap(data, vmin=0, vmax=1)
+		axis.set_xlabel("Features")
+		axis.set_ylabel("Samples")
+		axis.set_title("Train_x Heatmap")
+		fig = axis.get_figure()
+		fig.savefig(filename)
 
 	@staticmethod
 	def one_d(points, labels, path):
