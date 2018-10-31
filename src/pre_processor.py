@@ -3,9 +3,29 @@ from mirror import Mirror
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 import numpy
+from sklearn.ensemble import ExtraTreesClassifier
 
 # CONTAINS ALL STATIC MEMBERS
 class Pre_processor:
+
+	@staticmethod
+	def random_forest_feature_engineering(train_x, train_y):
+		rand_forest = ExtraTreesClassifier(n_estimators=128, n_jobs=30)
+		print("\nFitting Random Forest...")
+		rand_forest.fit(train_x, train_y)
+		feature_imps = rand_forest.feature_importances_.tolist()
+		# Add to dict
+		ind = 0
+		feature_imps_dict = dict()
+		while(ind < len(feature_imps)):
+			feature_imps_dict[ind+1] = feature_imps[ind]
+			ind = ind+1
+		sorted_keys = sorted(feature_imps_dict, key=feature_imps_dict.get, reverse=True)
+		print("\n===================================================")
+		print("feature: importance")
+		for key_ in sorted_keys:
+			print(str(key_) + ": " + str(feature_imps_dict[key_]))
+		print("===========================================\n")
 
 	@staticmethod
 	def corr_coeff_analysis(data):

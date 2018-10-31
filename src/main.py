@@ -23,7 +23,7 @@ class Main:
 		train_x = Pre_processor.normalize_data(train_x)
 		test_x = Pre_processor.normalize_data(test_x_raw)
 
-		neg_features, zero_features, pos_features = Pre_processor.corr_coeff_analysis(train_x)
+		Pre_processor.random_forest_feature_engineering(train_x, train_y)
 
 start_time = time()
 Main.main() 
