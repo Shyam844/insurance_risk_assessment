@@ -8,6 +8,48 @@ import numpy
 class Pre_processor:
 
 	@staticmethod
+	def corr_coeff_analysis(data):
+		print("\n=================================================================\n")
+		print("Correlation Coefficient Analysis - ")
+		pos_up = 1
+		pos_down = 0.7
+		neg_up = -0.7
+		neg_down = -1
+		zero_up = 0.001
+		zero_down = -0.001
+		print("Positively correlated: " + str(pos_down) + " to " + str(pos_up))
+		print("Uncorrelated: " + str(zero_down) + " to " + str(zero_up))
+		print("Negatively correlated: " + str(neg_down) + " to " + str(neg_up) + "\n")
+		corr_coef_grid = numpy.corrcoef(data, rowvar=False)
+		rows, cols = corr_coef_grid.shape
+		row = 0
+		pos_features = []
+		neg_features = []
+		zero_features = []
+		while(row < rows):
+			col = 0
+			while(col < row):
+				corr_coef = corr_coef_grid[row, col]
+				if(corr_coef >= pos_down and corr_coef <= pos_up):
+					pos_features.append((row+1, col+1))
+				elif(corr_coef >= neg_down and corr_coef <= neg_up):
+					neg_features.append((row+1, col+1))
+				elif(corr_coef >= zero_down and corr_coef <= zero_up):
+					zero_features.append((row+1, col+1))
+				col = col+1
+			row = row+1
+		print("Negatively correlated features (" + str(len(neg_features)) + ") : ")
+		print(neg_features)
+		print("\n=================================================================\n")
+		print("Uncorrelated features (" + str(len(zero_features)) + ") : ")
+		print(zero_features)
+		print("\n=================================================================\n")
+		print("Positively correlated features (" + str(len(pos_features)) + ") : ")
+		print(pos_features)
+		print("\n=================================================================\n")
+		return neg_features, zero_features, pos_features
+
+	@staticmethod
 	def get_top_k_features(data, k):
 		pca = PCA(n_components=k)
 		return pca.fit_transform(data)

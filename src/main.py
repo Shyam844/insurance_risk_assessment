@@ -23,7 +23,7 @@ class Main:
 		train_x = Pre_processor.normalize_data(train_x)
 		test_x = Pre_processor.normalize_data(test_x_raw)
 
-		Mirror.plot_heatmap_corr_coef(train_x, "corr_coeff_features.png")
+		neg_features, zero_features, pos_features = Pre_processor.corr_coeff_analysis(train_x)
 
 start_time = time()
 Main.main() 
