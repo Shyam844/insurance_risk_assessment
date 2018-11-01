@@ -42,12 +42,35 @@ class Pre_processor:
 		print(neg_features)
 		print("\n=================================================================\n")
 		print("Uncorrelated features (" + str(len(zero_features)) + ") : ")
-		print(zero_features)
+		Pre_processor.get_uncorrelated_dict(zero_features)
 		print("\n=================================================================\n")
 		print("Positively correlated features (" + str(len(pos_features)) + ") : ")
 		print(pos_features)
 		print("\n=================================================================\n")
 		return neg_features, zero_features, pos_features
+
+	@staticmethod
+	def get_uncorrelated_dict(zero_features):
+		freq_dict = dict()
+		for tuple_ in zero_features:
+			first_ = tuple_[0]
+			sec_ = tuple_[1]
+			if(freq_dict.get(first_) == None):
+				freq_dict[first_] = []
+			freq_dict[first_].append(sec_)
+			if(freq_dict.get(sec_) == None):
+				freq_dict[sec_] = []
+			freq_dict[sec_].append(first_)
+		# print dict
+		count = 1
+		while(count <= Constants.tot_features):
+			print(str(count) + " : ", end="")
+			if(freq_dict.get(count) == None):
+				print()
+			else:
+				print(freq_dict[count])
+			count = count+1
+		return freq_dict
 
 	@staticmethod
 	def get_top_k_features(data, k):
