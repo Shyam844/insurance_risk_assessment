@@ -4,9 +4,24 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 import numpy
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import RFE
 
 # CONTAINS ALL STATIC MEMBERS
 class Pre_processor:
+
+	@staticmethod
+	def recursive_feature_elimination(train_x, train_y):
+		clf = LogisticRegression()
+		rfe = RFE(clf, 3)
+		print("\n==================================")
+		print("Recursive Feature Elimination...")
+		rfe = rfe.fit(train_x, train_y)
+		print(rfe.support_)
+		print("Ranking:")
+		print(rfe.ranking_)
+		print("==================================\n")
+
 
 	@staticmethod
 	def random_forest_feature_engineering(train_x, train_y):

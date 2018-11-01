@@ -23,7 +23,7 @@ class Main:
 		train_x = Pre_processor.normalize_data(train_x)
 		test_x = Pre_processor.normalize_data(test_x_raw)
 
-		Pre_processor.random_forest_feature_engineering(train_x, train_y)
+		Pre_processor.recursive_feature_elimination(train_x, train_y)
 
 start_time = time()
 Main.main() 
