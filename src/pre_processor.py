@@ -99,7 +99,7 @@ class Pre_processor:
 		# print dict
 		count = 1
 		while(count <= Constants.tot_features):
-			print(str(count) + " : ", end="")
+			print(str(count) + " : ")
 			if(freq_dict.get(count) == None):
 				print()
 			else:

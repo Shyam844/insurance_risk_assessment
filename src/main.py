@@ -6,7 +6,8 @@ matplotlib.use('Agg')
 from database import Database
 from pre_processor import Pre_processor
 from mirror import Mirror
-from elm import Elm
+from nn import Nn
+#from elm import Elm
 from naive_bayes import Naive_bayes
 
 # Libraries
@@ -22,8 +23,8 @@ class Main:
 		# Normalize Data
 		train_x = Pre_processor.normalize_data(train_x)
 		test_x = Pre_processor.normalize_data(test_x_raw)
-
-		Pre_processor.recursive_feature_elimination(train_x, train_y)
+		
+		Nn.epoch(train_x, train_y, test_x, test_x_raw, 200, 'relu', "nn_1_200_relu.csv")		
 
 start_time = time()
 Main.main() 
