@@ -24,7 +24,7 @@ class Main:
 		train_x = Pre_processor.normalize_data(train_x)
 		test_x = Pre_processor.normalize_data(test_x_raw)
 		
-		Nn.epoch(train_x, train_y, test_x, test_x_raw, 200, 'relu', "nn_1_200_relu.csv")		
+		Nn.tune(train_x, train_y, test_x, test_x_raw, [200, 300], ['relu', 'tanh'], [10, 15], [0.05])		
 
 start_time = time()
 Main.main() 
