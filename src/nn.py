@@ -10,12 +10,13 @@ class Nn:
 
 	@staticmethod
 	def epoch(train_x, train_y, test_x, test_x_raw, neurons, activation_, epochs_, lr_):
+		print("tot_featues: " + str(Constants.tot_features))
 		train_y = Pre_processor.one_hot_encoding(train_y)
 		model = Sequential()
 		# input, hidden layer
 		model.add(Dense(units=neurons, activation=activation_, input_dim=Constants.tot_features))
 		# 2nd hidden layer
-		model.add(Dense(units=neurons, activation=activation_))
+		#model.add(Dense(units=neurons, activation=activation_))
 		# Output layer
 		model.add(Dense(units=Constants.tot_labels, activation='sigmoid'))	
 		optimizer_ = SGD(lr=lr_)
@@ -23,7 +24,7 @@ class Nn:
 		model.fit(train_x, train_y, epochs=epochs_, batch_size=30, verbose=2)
 		pred_y = model.predict(test_x, batch_size=128)
 		pred_y = Pre_processor.one_hot_decoding_full(pred_y)
-		filename = "nn_2_" + str(neurons) + "_" + activation_ + "_" + str(epochs_) + "_" + str(lr_) + ".csv"
+		filename = "nn_1_" + str(neurons) + "_" + activation_ + "_" + str(epochs_) + "_" + str(lr_) + ".csv"
 		Database.save_results(test_x_raw, pred_y, filename)
 	
 	@staticmethod

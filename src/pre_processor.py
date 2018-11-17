@@ -17,7 +17,7 @@ class Pre_processor:
 			# init feature array; 1D array of length Constants.tot_features; each value is either 0 or 1; 1 represents 'consider the feature'.
 			feature_array = []
 			ind = 0
-			while(ind < Constants.tot_features):
+			while(ind < len(data[0])):
 				feature_array.append(1)
 				ind = ind+1
 			# update feature array with features_to_ignore array
@@ -33,8 +33,9 @@ class Pre_processor:
 				if(num == 1):
 					features_to_consider.append(ind)
 				ind = ind+1
-		elif(len(features_to_consider) != 0 and one_indexing == True):
-			features_to_consider = Pre_processor.one_to_zero_index(features_to_consider)
+		elif(len(features_to_consider) != 0):
+			if(one_indexing == True):
+				features_to_consider = Pre_processor.one_to_zero_index(features_to_consider)
 		data = data[:, features_to_consider]
 		print("Post feature reduction, " + print_str + ": " + str(data.shape))
 		return data

@@ -7,6 +7,7 @@ from database import Database
 from pre_processor import Pre_processor
 from mirror import Mirror
 from nn import Nn
+from constants import Constants
 #from elm import Elm
 from naive_bayes import Naive_bayes
 
@@ -21,13 +22,17 @@ class Main:
 		test_x_raw = Database.get_test_data("../dataset/test.csv")
 
 		# features_to_ignore: 1-indexing
-		features_to_ignore_ = [14, 17, 24, 29, 31, 33, 63, 74, 82, 75, 94, 71, 127, 11, 26, 109]
-		train_x = Pre_processor.reduce_features(train_x, [], features_to_ignore_, one_indexing=True, print_str="train_x")
-		test_x_raw = Pre_processor.reduce_features(test_x_raw, [], features_to_ignore_, one_indexing=True, print_str="test_x")
+		features_to_ignore = [14, 17, 24, 29, 31, 33, 63, 74, 82, 75, 94, 71, 127, 11, 26, 109]
+		Constants.tot_features = Constants.tot_features - len(features_to_ignore)
+		train_x = Pre_processor.reduce_features(train_x, [], features_to_ignore, one_indexing=True, print_str="train_x")
+		test_x_raw = Pre_processor.reduce_features(test_x_raw, [], features_to_ignore, one_indexing=True, print_str="test_x")
 
 		# Normalize Data
 		train_x = Pre_processor.normalize_data(train_x)
 		test_x = Pre_processor.normalize_data(test_x_raw)	
+
+		# Model
+		Nn.epoch(train_x, train_y, test_x, test_x_raw, 200, "relu", 3, 0.3)	
 
 start_time = time()
 Main.main() 
