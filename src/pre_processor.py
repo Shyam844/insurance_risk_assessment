@@ -11,7 +11,7 @@ from sklearn.feature_selection import RFE
 class Pre_processor:
 
 	@staticmethod
-	def reduce_features(data, features_to_consider=[], features_to_ignore=[], one_indexing=False, print_str="data"):
+	def reduce_features(data, features_to_consider, features_to_ignore, one_indexing=False, print_str="data"):
 		if(len(features_to_ignore) != 0):
 			features_to_ignore = Pre_processor.one_to_zero_index(features_to_ignore)
 			# init feature array; 1D array of length Constants.tot_features; each value is either 0 or 1; 1 represents 'consider the feature'.
@@ -22,7 +22,7 @@ class Pre_processor:
 				ind = ind+1
 			# update feature array with features_to_ignore array
 			ind = 0
-			while(ind < features_to_ignore):
+			while(ind < len(features_to_ignore)):
 				num = features_to_ignore[ind]
 				feature_array[num] = 0
 				ind = ind+1
@@ -33,7 +33,7 @@ class Pre_processor:
 				if(num == 1):
 					features_to_consider.append(ind)
 				ind = ind+1
-		if(len(features_to_consider) != 0 and one_indexing == True):
+		elif(len(features_to_consider) != 0 and one_indexing == True):
 			features_to_consider = Pre_processor.one_to_zero_index(features_to_consider)
 		data = data[:, features_to_consider]
 		print("Post feature reduction, " + print_str + ": " + str(data.shape))
