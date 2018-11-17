@@ -11,6 +11,43 @@ from sklearn.feature_selection import RFE
 class Pre_processor:
 
 	@staticmethod
+	def reduce_features(data, features_to_consider=[], features_to_ignore=[], one_indexing=False, print_str="data"):
+		if(len(features_to_ignore) != 0):
+			features_to_ignore = Pre_processor.one_to_zero_index(features_to_ignore)
+			# init feature array; 1D array of length Constants.tot_features; each value is either 0 or 1; 1 represents 'consider the feature'.
+			feature_array = []
+			ind = 0
+			while(ind < Constants.tot_features):
+				feature_array.append(1)
+				ind = ind+1
+			# update feature array with features_to_ignore array
+			ind = 0
+			while(ind < features_to_ignore):
+				num = features_to_ignore[ind]
+				feature_array[num] = 0
+				ind = ind+1
+			ind = 0
+			# update features_to_consider array
+			while(ind < len(feature_array)):
+				num = feature_array[ind]
+				if(num == 1):
+					features_to_consider.append(ind)
+				ind = ind+1
+		if(len(features_to_consider) != 0 and one_indexing == True):
+			features_to_consider = Pre_processor.one_to_zero_index(features_to_consider)
+		data = data[:, features_to_consider]
+		print("Post feature reduction, " + print_str + ": " + str(data.shape))
+		return data
+
+	@staticmethod
+	def one_to_zero_index(arr):
+		ind = 0
+		while(ind < len(arr)):
+			arr[ind] = arr[ind]-1
+			ind = ind+1
+		return arr
+
+	@staticmethod
 	def recursive_feature_elimination(train_x, train_y):
 		clf = LogisticRegression()
 		rfe = RFE(clf, 3)

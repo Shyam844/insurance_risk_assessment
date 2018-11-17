@@ -20,11 +20,14 @@ class Main:
 		train_x, train_y = Database.get_train_data("../dataset/train.csv")
 		test_x_raw = Database.get_test_data("../dataset/test.csv")
 
+		# features_to_ignore: 1-indexing
+		features_to_ignore_ = [14, 17, 24, 29, 31, 33, 63, 74, 82, 75, 94, 71, 127, 11, 26, 109]
+		train_x = Pre_processor.reduce_features(train_x, features_to_ignore=features_to_ignore_, one_indexing=True, print_str="train_x")
+		test_x = Pre_processor.reduce_features(test_x, features_to_ignore=features_to_ignore_, one_indexing=True, print_str="test_x")
+
 		# Normalize Data
 		train_x = Pre_processor.normalize_data(train_x)
-		test_x = Pre_processor.normalize_data(test_x_raw)
-		
-		Nn.tune(train_x, train_y, test_x, test_x_raw, [200, 300], ['relu', 'tanh'], [10, 15], [0.05])		
+		test_x = Pre_processor.normalize_data(test_x_raw)	
 
 start_time = time()
 Main.main() 
